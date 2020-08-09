@@ -9,10 +9,10 @@ export const getBoolean = () => {
   return Boolean(getRandomInteger(0, 1));
 };
 
-export const arrayRandElement = (evt) => {
-  const randomIndex = getRandomInteger(0, evt.length - 1);
+export const getRandomElement = (elements) => {
+  const randomIndex = getRandomInteger(0, elements.length - 1);
 
-  return evt[randomIndex];
+  return elements[randomIndex];
 };
 
 const getCurrentDate = () => {

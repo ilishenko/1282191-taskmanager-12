@@ -1,12 +1,13 @@
 import {isTaskExpired, isTaskRepeating, isTaskExpiringToday} from "../utils.js";
 
 const taskToFilterMap = (tasks) => {
-  tasks.reduce((filter, task) => {
+
+  return tasks.reduce((filter, task) => {
     const all = filter.all + !task.isArchive;
-    const overdue = filter.overdue + !task.isArchive + isTaskExpired(task.dueDate);
-    const today = filter.today + !task.isArchive + isTaskExpiringToday(task.dueDate);
-    const favorites = filter.favorites + !task.isArchive + task.isFavorite;
-    const repeating = filter.repeating + !task.isArchive + isTaskRepeating(task.repeating);
+    const overdue = filter.overdue + (isTaskExpired(task.dueDate) && !task.isArchive);
+    const today = filter.today + (isTaskExpiringToday(task.dueDate) && !task.isArchive);
+    const favorites = filter.favorites + (task.isFavorite && !task.isArchive);
+    const repeating = filter.repeating + (isTaskRepeating(task.repeating) && !task.isArchive);
     const archive = filter.archive + task.isArchive;
 
     return {
@@ -17,15 +18,22 @@ const taskToFilterMap = (tasks) => {
       repeating,
       archive,
     };
+  }, {
+    all: 0,
+    overdue: 0,
+    today: 0,
+    favorites: 0,
+    repeating: 0,
+    archive: 0,
   });
-  return tasks.reduce;
+
 };
 
 export const generateFilter = (tasks) => {
-  return Object.entries(taskToFilterMap).map(([filterName, countTasks]) => {
+  return Object.entries(taskToFilterMap(tasks)).map(([filterName, countTasks]) => {
     return {
       name: filterName,
-      count: countTasks(tasks),
+      count: countTasks,
     };
   });
 };

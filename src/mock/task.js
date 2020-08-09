@@ -1,7 +1,7 @@
 import {COLORS} from "../const.js";
 import {getRandomInteger} from "../utils.js";
 import {getBoolean} from "../utils.js";
-import {arrayRandElement} from "../utils.js";
+import {getRandomElement} from "../utils.js";
 
 const DESCRIPTIONS = [
   `Изучить теорию`,
@@ -11,14 +11,8 @@ const DESCRIPTIONS = [
 
 const MAX_DAYS_GAP = 7;
 
-const generateDescription = () => {
-  const randomIndex = getRandomInteger(0, DESCRIPTIONS.length - 1);
-
-  return DESCRIPTIONS[randomIndex];
-};
-
 const generateDate = () => {
-  const isDate = Boolean(getRandomInteger(0, 1));
+  const isDate = getBoolean();
 
   if (!isDate) {
     return null;
@@ -61,11 +55,11 @@ export const generateTask = () => {
     };
 
   return {
-    description: generateDescription(),
+    description: getRandomElement(DESCRIPTIONS),
     dueDate,
     repeating,
-    color: arrayRandElement(COLORS),
-    isArchive: Boolean(getRandomInteger(0, 1)),
-    isFavorite: Boolean(getRandomInteger(0, 1))
+    color: getRandomElement(COLORS),
+    isArchive: getBoolean(),
+    isFavorite: getBoolean(),
   };
 };
