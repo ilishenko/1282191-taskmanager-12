@@ -1,16 +1,20 @@
 import {COLORS} from "../const.js";
 import {getRandomInteger} from "../utils.js";
+import {getBoolean} from "../utils.js";
+import {arrayRandElement} from "../utils.js";
+
+const DESCRIPTIONS = [
+  `Изучить теорию`,
+  `Сделать домашку`,
+  `Пройти интенсив на соточку`
+];
+
+const MAX_DAYS_GAP = 7;
 
 const generateDescription = () => {
-  const descriptions = [
-    `Изучить теорию`,
-    `Сделать домашку`,
-    `Пройти интенсив на соточку`
-  ];
+  const randomIndex = getRandomInteger(0, DESCRIPTIONS.length - 1);
 
-  const randomIndex = getRandomInteger(0, descriptions.length - 1);
-
-  return descriptions[randomIndex];
+  return DESCRIPTIONS[randomIndex];
 };
 
 const generateDate = () => {
@@ -20,8 +24,7 @@ const generateDate = () => {
     return null;
   }
 
-  const maxDaysGap = 7;
-  const daysGap = getRandomInteger(-maxDaysGap, maxDaysGap);
+  const daysGap = getRandomInteger(-MAX_DAYS_GAP, MAX_DAYS_GAP);
   const currentDate = new Date();
 
   currentDate.setHours(23, 59, 59, 999);
@@ -35,18 +38,12 @@ const generateRepeating = () => {
   return {
     mo: false,
     tu: false,
-    we: Boolean(getRandomInteger(0, 1)),
+    we: getBoolean(),
     th: false,
-    fr: Boolean(getRandomInteger(0, 1)),
+    fr: getBoolean(),
     sa: false,
     su: false
   };
-};
-
-const getRandomColor = () => {
-  const randomIndex = getRandomInteger(0, COLORS.length - 1);
-
-  return COLORS[randomIndex];
 };
 
 export const generateTask = () => {
@@ -67,7 +64,7 @@ export const generateTask = () => {
     description: generateDescription(),
     dueDate,
     repeating,
-    color: getRandomColor(),
+    color: arrayRandElement(COLORS),
     isArchive: Boolean(getRandomInteger(0, 1)),
     isFavorite: Boolean(getRandomInteger(0, 1))
   };

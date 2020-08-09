@@ -1,8 +1,18 @@
-export const getRandomInteger = (a = 0, b = 1) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
+export const getRandomInteger = (min = 0, max = 1) => {
+  const lower = Math.ceil(Math.min(min, max));
+  const upper = Math.floor(Math.max(min, max));
 
   return Math.floor(lower + Math.random() * (upper - lower + 1));
+};
+
+export const getBoolean = () => {
+  return Boolean(getRandomInteger(0, 1));
+};
+
+export const arrayRandElement = (evt) => {
+  const randomIndex = getRandomInteger(0, evt.length - 1);
+
+  return evt[randomIndex];
 };
 
 const getCurrentDate = () => {
